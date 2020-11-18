@@ -32,9 +32,8 @@ class Actuator():
         return event_type in self.__subscribed_events
 
     def sink(self, action: Action) -> None:
-        assert self.is_subscribed_to(event_type=type(action))
-
-        self.__action_buffer.put(action)
+        if self.is_subscribed_to(event_type=type(action)):
+            self.__action_buffer.put(action)
 
     def has_pending_actions(self) -> bool:
         return not self.__action_buffer.empty()

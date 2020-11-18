@@ -32,9 +32,8 @@ class Sensor():
         return event_type in self.__subscribed_events
 
     def sink(self, perception: Perception) -> None:
-        assert self.is_subscribed_to(type(perception))
-
-        self.__perception_buffer.put(perception)
+        if self.is_subscribed_to(type(perception)):
+            self.__perception_buffer.put(perception)
 
     def has_perception(self) -> bool:
         return not self.__perception_buffer.empty()
