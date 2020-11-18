@@ -1,9 +1,3 @@
-"""
-Created on Sun Jun  2 21:22:31 2019
-
-@author: ben
-"""
-
 import setuptools
 
 
