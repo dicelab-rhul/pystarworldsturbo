@@ -13,19 +13,13 @@ class Actuator():
     def subscribe_to_event_type(self, event_type: Type) -> None:
         if not isinstance(event_type, Type) or not issubclass(event_type, Action):
             raise ValueError("Cannot subscribe to something which is not a type of Action.")
-        elif event_type in self.__subscribed_events:
-            # We do not need to re-subscribe.
-            pass
-        else:
+        elif event_type not in self.__subscribed_events: # We do not want to re-subscribe.
             self.__subscribed_events.append(event_type)
 
     def unsubscribe_from_event_type(self, event_type: Type) -> None:
         if not isinstance(event_type, Type) or not issubclass(event_type, Action):
             raise ValueError("Cannot unsubscribe from something which is not a type of Action.")
-        elif event_type not in self.__subscribed_events:
-            # We do not need to unsubscribe.
-            pass
-        else:
+        elif event_type in self.__subscribed_events:
             self.__subscribed_events.remove(event_type)
 
     def is_subscribed_to(self, event_type: Type) -> bool:
