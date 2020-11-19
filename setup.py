@@ -1,4 +1,5 @@
-import setuptools
+from setuptools import setup, find_packages
+
 
 
 # All the metadata that are expected to be reused should go here.
@@ -26,7 +27,7 @@ dependencies: list = ["wheel", "ipython"]
 # End of metadata
 
 
-setuptools.setup(
+setup(
       name=name,
       version=version,
       description=description,
@@ -35,7 +36,7 @@ setuptools.setup(
       author=author,
       author_email=author_email,
       license=license,
-      packages=[p for p in setuptools.find_packages() if "test" not in p],
+      packages=find_packages(),
       include_package_data=True,
       install_requires=dependencies,
       classifiers=classifiers
