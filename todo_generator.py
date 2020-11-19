@@ -28,7 +28,7 @@ def main() -> None:
         f.write(TODO_HEADER + "\n")
 
         if len(lines) > 0:
-            print("\n")
+            f.write("\n")
 
         for l in lines:
             f.write(l + "\n")
