@@ -1,5 +1,7 @@
 # PyStarWorldsTurbo
 
+A lite version of PyStarWorlds for VacuumWorld.
+
 LOCAL INSTALL PROCEEDURE:
 
 1. Clone the repository
