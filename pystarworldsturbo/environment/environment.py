@@ -1,4 +1,4 @@
-from typing import Dict, List
+from typing import Dict, List, Optional
 
 from .ambient import Ambient
 from .physics.action_executor import ActionExecutor
@@ -28,7 +28,7 @@ class Environment():
     def get_actors_list(self) -> List[Actor]:
         return self.__actors.values()
 
-    def get_actor(self, actor_id: str) -> Actor:
+    def get_actor(self, actor_id: str) -> Optional[Actor]:
         if actor_id not in self.__actors:
             return None
         else:
@@ -50,7 +50,7 @@ class Environment():
     def get_passive_bodies_list(self) -> List[Body]:
         return self.__passive_bodies.values()
 
-    def get_passive_body(self, passive_body_id: str) -> Body:
+    def get_passive_body(self, passive_body_id: str) -> Optional[Body]:
         if passive_body_id not in self.__passive_bodies:
             return None
         else:
@@ -66,7 +66,7 @@ class Environment():
 
         del self.__passive_bodies[passive_body_id]
 
-    def generate_perception_for_actor(self, actor_id: str, action_result: ActionResult) -> Perception:
+    def generate_perception_for_actor(self, actor_id: str, action_result: ActionResult) -> Optional[Perception]:
         # Abstract.
         ignore(self)
         ignore(actor_id)
@@ -124,7 +124,7 @@ class Environment():
             self.send_perception_to_actor(perception=perception, actor_id=action.get_actor_id())
 
 
-    def get_executor_for(self, action: Action) -> ActionExecutor:
+    def get_executor_for(self, action: Action) -> Optional[ActionExecutor]:
         # Abstract.
         ignore(self)
         ignore(action)

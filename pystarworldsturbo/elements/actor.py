@@ -1,4 +1,4 @@
-from typing import Iterable, List, Type, Union
+from typing import Iterable, List, Type, Union, Optional
 
 from .body import  Body
 from .sensor import Sensor
@@ -26,7 +26,7 @@ class Actor(Body):
     def get_listening_sensor(self) -> Sensor:
         return self.get_sensor_for(event_type=BccMessage)
 
-    def get_sensor_for(self, event_type: Type) -> Sensor:
+    def get_sensor_for(self, event_type: Type) -> Optional[Sensor]:
         for sensor in self.__sensors:
             if sensor.is_subscribed_to(event_type=event_type):
                 return sensor
@@ -36,7 +36,7 @@ class Actor(Body):
     def get_actuators(self) -> List[Actuator]:
         return self.__actuators
 
-    def get_actuator_for(self, event_type: Type) -> Actuator:
+    def get_actuator_for(self, event_type: Type) -> Optional[Actuator]:
         for actuator in self.__actuators:
             if actuator.is_subscribed_to(event_type=event_type):
                 return actuator
