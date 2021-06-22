@@ -5,14 +5,13 @@ from setuptools import setup, find_packages
 # All the metadata that are expected to be reused should go here.
 
 name: str = "pystarworldsturbo"
-version: str = "1.0.2"
+version: str = "1.0.4"
 description: str = "PyStarWorldsTurbo, an agent library."
 author: str = "Emanuele Uliana"
 author_email: str = "pdac002@live.rhul.ac.uk"
 license: str = "GNU3"
 classifiers: list = [
       "Programming Language :: Python :: 3",
-      "Programming Language :: Python :: 3.7",
       "Programming Language :: Python :: 3.8",
       "Programming Language :: Python :: 3.9",
       "Programming Language :: Python :: 3 :: Only",
