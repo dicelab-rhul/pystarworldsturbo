@@ -47,16 +47,16 @@ class Actor(Body):
         # Abstract.
         pass
 
-    def get_outstanding_actions(self) -> List[Action]:
+    def get_pending_actions(self) -> List[Action]:
         actions: List[Action] = []
 
         # Any actor must execute at least one action per cycle.
         while not actions:
-            actions += self.__get_outstanding_actions()
+            actions += self.__get_pending_actions()
 
         return actions
 
-    def __get_outstanding_actions(self) -> List[Action]:
+    def __get_pending_actions(self) -> List[Action]:
         actions: List[Action] = []
 
         for actuator in self.__actuators:

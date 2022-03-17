@@ -100,7 +100,7 @@ class Environment():
 
     def __execute_actor_actions(self, actor: Actor) -> None:
         actor.cycle()
-        actions: List[Action] = actor.get_outstanding_actions()
+        actions: List[Action] = actor.get_pending_actions()
         self.validate_actions(actions=actions)
 
         for action in actions:
