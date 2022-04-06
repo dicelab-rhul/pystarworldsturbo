@@ -14,12 +14,6 @@ class Message(Perception):
         self.__sender_id: str = sender_id
         self.__recipient_ids: List[str] = recipient_ids
 
-        self.__create_quick_api()
-
-    def __create_quick_api(self) -> None:
-        self.sender: str = self.__sender_id
-        self.content: Union[int, float, str, list, tuple, dict] = self.__content
-
     def get_content(self) -> Union[int, float, str, list, tuple, dict]:
         return self.__content
 

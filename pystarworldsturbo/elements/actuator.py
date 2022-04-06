@@ -32,7 +32,7 @@ class Actuator():
     def has_pending_actions(self) -> bool:
         return not self.__action_buffer.empty()
 
-    def source(self) -> Union[Action, Iterable[Action]]:
+    def source(self) -> Union[Action, Iterable[Action], None]:
         if not self.__action_buffer.empty():
             return self.__action_buffer.get()
         else:
