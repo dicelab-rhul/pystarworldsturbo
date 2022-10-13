@@ -1,4 +1,4 @@
-from typing import Dict, List, Optional
+from typing import Dict, List, Optional, Type
 
 from .ambient import Ambient
 from .physics.action_executor import ActionExecutor
@@ -66,10 +66,11 @@ class Environment():
 
         del self.__passive_bodies[passive_body_id]
 
-    def generate_perception_for_actor(self, actor_id: str, action_result: ActionResult) -> Optional[Perception]:
+    def generate_perception_for_actor(self, actor_id: str, action_type: Type[Action], action_result: ActionResult) -> Optional[Perception]:
         # Abstract.
         ignore(self)
         ignore(actor_id)
+        ignore(action_type)
         ignore(action_result)
 
         return None
@@ -119,7 +120,7 @@ class Environment():
             raise ValueError("No executor found for action of type {}.".format(type(action)))
         else:
             result: ActionResult = action_executor.execute(env=self, action=action)
-            perception: Perception = self.generate_perception_for_actor(actor_id=action.get_actor_id(), action_result=result)
+            perception: Perception = self.generate_perception_for_actor(action_type=type(action), actor_id=action.get_actor_id(), action_result=result)
             
             self.send_perception_to_actor(perception=perception, actor_id=action.get_actor_id())
 
