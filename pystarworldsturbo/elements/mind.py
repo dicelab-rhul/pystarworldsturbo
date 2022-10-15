@@ -3,7 +3,6 @@ from typing import Tuple
 from ..common.action import Action
 
 
-
 class Mind():
     def perceive(*_) -> None:
         # Abstract.

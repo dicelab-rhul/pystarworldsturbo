@@ -12,7 +12,6 @@ from ..common.action_result import ActionResult
 from ..utils.utils import ignore
 
 
-
 class Environment():
     def __init__(self, ambient: Ambient, initial_actors: List[Actor]=[], initial_passive_bodies: List[Body]=[]) -> None:
         self.__ambient: Ambient = ambient
@@ -109,7 +108,7 @@ class Environment():
 
     def validate_actions(self, actions: List[Action]) -> None:
         # Abstract.
-        
+
         ignore(self)
         ignore(actions)
 
@@ -121,7 +120,7 @@ class Environment():
         else:
             result: ActionResult = action_executor.execute(env=self, action=action)
             perception: Perception = self.generate_perception_for_actor(action_type=type(action), actor_id=action.get_actor_id(), action_result=result)
-            
+
             self.send_perception_to_actor(perception=perception, actor_id=action.get_actor_id())
 
 

@@ -1,7 +1,6 @@
 from .action_outcome import ActionOutcome
 
 
-
 class ActionResult():
     def __init__(self, outcome: ActionOutcome) -> None:
         self.__outcome: ActionOutcome = outcome

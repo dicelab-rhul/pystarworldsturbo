@@ -1,9 +1,7 @@
 from uuid import uuid4
 
 
-
 global_counter: int = 1
-
 
 
 class Identifiable():

@@ -2,7 +2,6 @@ from os import devnull
 from typing import Any
 
 
-
 def ignore(obj: Any) -> None:
     if not obj:
         return

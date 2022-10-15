@@ -1,7 +1,6 @@
 from .event import Event
 
 
-
 class Action(Event):
     def __init__(self) -> None:
         super(Action, self).__init__()

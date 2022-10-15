@@ -8,7 +8,6 @@ from ..common.message import BccMessage
 from ..common.action import Action
 
 
-
 class Actor(Body):
     def __init__(self, mind: Mind, sensors: List[Sensor]=[], actuators: List[Actuator]=[]) -> None:
         super(Body, self).__init__()

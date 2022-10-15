@@ -4,7 +4,6 @@ from queue import Queue
 from ..common.perception import Perception
 
 
-
 class Sensor():
     def __init__(self, subscribed_events: List[Type]=[]) -> None:
         self.__subscribed_events: List[Type] = subscribed_events
@@ -13,7 +12,7 @@ class Sensor():
     def subscribe_to_event_type(self, event_type: Type) -> None:
         if not isinstance(event_type, Type) or not issubclass(event_type, Perception):
             raise ValueError("Cannot subscribe to something which is not a type of Perception.")
-        elif event_type not in self.__subscribed_events: # We do not want to re-subscribe.
+        elif event_type not in self.__subscribed_events:  # We do not want to re-subscribe.
             self.__subscribed_events.append(event_type)
 
     def unsubscribe_from_event_type(self, event_type: Type) -> None:

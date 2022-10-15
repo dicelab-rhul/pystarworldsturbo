@@ -3,13 +3,12 @@ from typing import List, Union
 from .perception import Perception
 
 
-
 class Message(Perception):
     def __init__(self, content: Union[int, float, str, list, tuple, dict], sender_id: str, recipient_ids: List[str]=[]) -> None:
         assert type(content) in [int, float, str, list, tuple, dict]
         assert type(sender_id) == str
         assert recipient_ids is not None
-        
+
         self.__content: Union[int, float, str, list, tuple, dict] = content
         self.__sender_id: str = sender_id
         self.__recipient_ids: List[str] = recipient_ids

@@ -6,9 +6,9 @@ from ...common.action_result import ActionResult
 from ...common.action import Action
 from ...utils.utils import ignore
 
+
 if TYPE_CHECKING:
     from ...environment.environment import Environment
-
 
 
 class ActionExecutor():
