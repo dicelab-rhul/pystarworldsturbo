@@ -17,7 +17,7 @@ def main() -> None:
 
     for dir, _, files in os.walk(os.getcwd()):
         for f in filter(lambda candidate: any(filter(lambda ext: candidate.endswith(ext), INTERESTING_FILES_EXTENSIONS)), files):
-            if not f in EXCLUSION_LIST:
+            if f not in EXCLUSION_LIST:
                 lines += look_for_todos(os.path.join(dir, f))
 
     with open(TODO_FILE, "w") as f:

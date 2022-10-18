@@ -113,7 +113,7 @@ class Environment():
         ignore(actions)
 
     def execute_action(self, action: Action) -> None:
-        action_executor: ActionExecutor = self.get_executor_for(action=action)
+        action_executor: Optional[ActionExecutor] = self.get_executor_for(action=action)
 
         if not action_executor:
             raise ValueError("No executor found for action of type {}.".format(type(action)))
