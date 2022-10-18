@@ -7,7 +7,7 @@ name: str = "pystarworldsturbo"
 version: str = "1.0.7"
 description: str = "PyStarWorldsTurbo, an agent library."
 author: str = "Emanuele Uliana"
-author_email: str = "pystarworldsturbo@[R.E.M.O.V.E.T.H.I.S]dicelab-rhul.org"
+author_email: str = "pystarworldsturbo@dicelab-rhul.org"
 license: str = "GNU3"
 classifiers: list = [
     "Programming Language :: Python :: 3",
