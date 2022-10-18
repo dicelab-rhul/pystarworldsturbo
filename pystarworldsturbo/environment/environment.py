@@ -123,7 +123,6 @@ class Environment():
 
             self.send_perception_to_actor(perception=perception, actor_id=action.get_actor_id())
 
-
     def get_executor_for(self, action: Action) -> Optional[ActionExecutor]:
         # Abstract.
         ignore(self)

@@ -26,8 +26,8 @@ def main() -> None:
         if len(lines) > 0:
             f.write("\n")
 
-        for l in lines:
-            f.write(l + "\n")
+        for line in lines:
+            f.write(line + "\n")
 
         f.flush()
 

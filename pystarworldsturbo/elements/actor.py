@@ -1,6 +1,6 @@
 from typing import Iterable, List, Type, Union, Optional
 
-from .body import  Body
+from .body import Body
 from .sensor import Sensor
 from .actuator import Actuator
 from .mind import Mind
