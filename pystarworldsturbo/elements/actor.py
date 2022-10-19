@@ -22,7 +22,7 @@ class Actor(Body):
     def get_sensors(self) -> List[Sensor]:
         return self.__sensors
 
-    def get_listening_sensor(self) -> Sensor:
+    def get_listening_sensor(self) -> Optional[Sensor]:
         return self.get_sensor_for(event_type=BccMessage)
 
     def get_sensor_for(self, event_type: Type) -> Optional[Sensor]:
