@@ -9,6 +9,7 @@ from ..common.message import Message, BccMessage
 from ..common.action import Action
 from ..common.perception import Perception
 from ..common.action_result import ActionResult
+from ..common.exceptions import IdentityException
 from ..utils.utils import ignore
 
 
@@ -74,12 +75,18 @@ class Environment():
 
         return None
 
-    def send_message_to_actors(self, message: Message) -> None:
+    def send_message_to_recipients(self, message: Message, check_sender_identity: bool=True) -> None:
+        if check_sender_identity and message.get_sender_id() not in self.__actors:
+            raise IdentityException("Unknown sender: {}. The sender must be an actor living in the environment.".format(message.get_sender_id()))
+
         if message.get_recipients_ids() == []:
             message.override_recipients(recipient_ids=[recipient_id for recipient_id in self.__actors if recipient_id != message.get_sender_id()])
 
+        self.__send_message_to_recipients(message=message)
+
+    def __send_message_to_recipients(self, message: Message) -> None:
         for recipient_id in message.get_recipients_ids():
-            if recipient_id in self.__actors:
+            if recipient_id in self.__actors and recipient_id != message.get_sender_id():
                 bcc_message: BccMessage = BccMessage(content=message.get_content(), sender_id=message.get_sender_id(), recipient_id=recipient_id)
                 recipient_listening_sensor: Sensor = self.__actors[recipient_id].get_listening_sensor()
 
