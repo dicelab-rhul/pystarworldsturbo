@@ -4,16 +4,16 @@ from .perception import Perception
 
 
 class Message(Perception):
-    def __init__(self, content: Union[int, float, str, list, tuple, dict], sender_id: str, recipient_ids: List[str]=[]) -> None:
-        assert type(content) in [int, float, str, list, tuple, dict]
+    def __init__(self, content: Union[int, float, str, bytes, list, tuple, dict], sender_id: str, recipient_ids: List[str]=[]) -> None:
+        assert type(content) in [int, float, str, bytes, list, tuple, dict]
         assert type(sender_id) == str
         assert recipient_ids is not None
 
-        self.__content: Union[int, float, str, list, tuple, dict] = content
+        self.__content: Union[int, float, str, bytes, list, tuple, dict] = content
         self.__sender_id: str = sender_id
         self.__recipient_ids: List[str] = recipient_ids
 
-    def get_content(self) -> Union[int, float, str, list, tuple, dict]:
+    def get_content(self) -> Union[int, float, str, bytes, list, tuple, dict]:
         return self.__content
 
     def get_sender_id(self) -> str:
@@ -27,7 +27,8 @@ class Message(Perception):
 
 
 class BccMessage(Message):
-    def __init__(self, content: Union[int, float, str, list, tuple, dict], sender_id: str, recipient_id: str) -> None:
+    def __init__(self, content: Union[int, float, str, bytes, list, tuple, dict], sender_id: str, recipient_id: str) -> None:
+        assert type(content) in [int, float, str, bytes, list, tuple, dict]
         assert type(recipient_id) == str
 
         super(BccMessage, self).__init__(content=content, sender_id=sender_id, recipient_ids=[recipient_id])
