@@ -4,6 +4,13 @@ from .perception import Perception
 
 
 class Message(Perception):
+    '''
+    This class specifies a wrapper for a message that is sent to a multiple recipients, and its metadata.
+
+    * The content is specified by the `content` field. This field's type is `Union[int, float, str, bytes, list, tuple, dict]`.
+    * The recipients are specified by the `recipient_ids` field. This field's type is `List[str]`.
+    * The sender is specified by the `sender_id` field. This field's type is `str`.
+    '''
     def __init__(self, content: Union[int, float, str, bytes, list, tuple, dict], sender_id: str, recipient_ids: List[str]=[]) -> None:
         assert type(content) in [int, float, str, bytes, list, tuple, dict]
         assert type(sender_id) == str
@@ -14,19 +21,40 @@ class Message(Perception):
         self.__recipient_ids: List[str] = recipient_ids
 
     def get_content(self) -> Union[int, float, str, bytes, list, tuple, dict]:
+        '''
+        Returns the content of the message as a `Union[int, float, str, bytes, list, tuple, dict]`.
+        '''
         return self.__content
 
     def get_sender_id(self) -> str:
+        '''
+        Returns the sender's ID as a `str`.
+        '''
         return self.__sender_id
 
     def get_recipients_ids(self) -> List[str]:
+        '''
+        Returns the recipients' IDs as a `List[str]`.
+
+        In case this `Message` is a `BccMessage`, this method returns a `List[str]`containing only one ID.
+        '''
         return self.__recipient_ids
 
     def override_recipients(self, recipient_ids: List[str]) -> None:
+        '''
+        WARNING: this method needs to be public, but it is not part of the public API.
+        '''
         self.__recipient_ids = recipient_ids
 
 
 class BccMessage(Message):
+    '''
+    This class specifies a wrapper for a message that is sent to a single recipient, and its metadata.
+
+    * The content is specified by the `content` field. This field's type is `Union[int, float, str, bytes, list, tuple, dict]`.
+    * The recipient is specified by the `recipient_id` field. This field's type is `str`.
+    * The sender is specified by the `sender_id` field. This field's type is `str`.
+    '''
     def __init__(self, content: Union[int, float, str, bytes, list, tuple, dict], sender_id: str, recipient_id: str) -> None:
         assert type(content) in [int, float, str, bytes, list, tuple, dict]
         assert type(recipient_id) == str
