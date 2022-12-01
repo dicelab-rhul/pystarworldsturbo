@@ -63,9 +63,8 @@ class BccMessage(Message):
     * The sender is specified by the `sender_id` field. This field's type is `str`.
     '''
     def __init__(self, content: Union[int, float, str, bytes, list, tuple, dict], sender_id: str, recipient_id: str) -> None:
-        assert type(content) in [int, float, str, bytes, list, tuple, dict]
-        assert type(sender_id) == str
-        assert type(recipient_id) == str
+        if content is None:
+            raise ValueError("The top content of a message cannot be `None`.")
 
         super(BccMessage, self).__init__(content=self.__deep_copy_content(content), sender_id=sender_id, recipient_ids=[recipient_id])
 
