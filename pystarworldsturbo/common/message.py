@@ -12,9 +12,16 @@ class Message(Perception):
     * The sender is specified by the `sender_id` field. This field's type is `str`.
     '''
     def __init__(self, content: Union[int, float, str, bytes, list, tuple, dict], sender_id: str, recipient_ids: List[str]=[]) -> None:
-        assert type(content) in [int, float, str, bytes, list, tuple, dict]
-        assert type(sender_id) == str
-        assert recipient_ids is not None
+        if content is None:
+            raise ValueError("The top content of a message cannot be `None`.")
+        elif not isinstance(content, (int, float, str, bytes, list, tuple, dict)):
+            raise TypeError("The top content of a message must be a `Union[int, float, str, bytes, list, tuple, dict]`.")
+        elif sender_id is None:
+            raise ValueError("The sender ID of a message cannot be `None`.")
+        elif not isinstance(sender_id, str):
+            raise TypeError("The sender ID of a message must be a `str`.")
+        elif recipient_ids is None:
+            raise ValueError("The list of recipient IDs of a message cannot be `None`.")
 
         self.__content: Union[int, float, str, bytes, list, tuple, dict] = content
         self.__sender_id: str = sender_id
@@ -57,12 +64,17 @@ class BccMessage(Message):
     '''
     def __init__(self, content: Union[int, float, str, bytes, list, tuple, dict], sender_id: str, recipient_id: str) -> None:
         assert type(content) in [int, float, str, bytes, list, tuple, dict]
+        assert type(sender_id) == str
         assert type(recipient_id) == str
 
         super(BccMessage, self).__init__(content=self.__deep_copy_content(content), sender_id=sender_id, recipient_ids=[recipient_id])
 
-    def __deep_copy_content(self, content: Union[int, float, str, bytes, list, tuple, dict]) -> Union[int, float, str, bytes, list, tuple, dict]:
-        if isinstance(content, (int, float, str, bytes)):
+    def __deep_copy_content(self, content: Union[int, float, str, bytes, list, tuple, dict]) -> Union[int, float, str, bytes, list, tuple, dict, None]:
+        # The content is deep-copied to avoid that the same object is shared by multiple `BccMessage` instances.
+        # The `None` value is not valid for the top content, but it is valid for the content of a list, tuple, or dict.
+        # Since this method is called recursively, the check that the top content is not `None` must be performed by the caller.
+
+        if content is None or isinstance(content, (int, float, str, bytes)):
             return content
         elif isinstance(content, list):
             return [self.__deep_copy_content(element) for element in content]
@@ -71,7 +83,7 @@ class BccMessage(Message):
         elif isinstance(content, dict):
             return {self.__deep_copy_content(key): self.__deep_copy_content(value) for key, value in content.items()}
         else:
-            raise ValueError("The content of a message must be of type `Union[int, float, str, bytes, list, tuple, dict]`, including recursive content.")
+            raise ValueError("Invalid content type: {}. The content of a message must be of type `Union[int, float, str, bytes, list, tuple, dict]`, including recursive content.".format(type(content)))
 
     def __str__(self) -> str:
         return "message:(from: {}, content: {})".format(self.get_sender_id(), self.get_content())
