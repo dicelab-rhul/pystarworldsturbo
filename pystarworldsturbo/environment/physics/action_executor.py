@@ -32,13 +32,13 @@ class ActionExecutor():
 
     def is_possible(self, env: Environment, action: Action) -> bool:
         # Abstract.
-        ignore(self)
+
         ignore(env)
         ignore(action)
 
     def attempt(self, env: Environment, action: Action) -> ActionResult:
         # Abstract.
-        ignore(self)
+
         ignore(env)
         ignore(action)
 
@@ -46,6 +46,6 @@ class ActionExecutor():
 
     def succeeded(self, env: Environment, action: Action) -> bool:
         # Abstract.
-        ignore(env)
-        ignore(self)
+
         ignore(action)
+        ignore(env)

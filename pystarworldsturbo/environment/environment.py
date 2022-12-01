@@ -68,7 +68,7 @@ class Environment():
 
     def generate_perception_for_actor(self, actor_id: str, action_type: Type[Action], action_result: ActionResult) -> Optional[Perception]:
         # Abstract.
-        ignore(self)
+
         ignore(actor_id)
         ignore(action_type)
         ignore(action_result)
@@ -116,7 +116,6 @@ class Environment():
     def validate_actions(self, actions: List[Action]) -> None:
         # Abstract.
 
-        ignore(self)
         ignore(actions)
 
     def execute_action(self, action: Action) -> None:
@@ -132,7 +131,7 @@ class Environment():
 
     def get_executor_for(self, action: Action) -> Optional[ActionExecutor]:
         # Abstract.
-        ignore(self)
+
         ignore(action)
 
         return None

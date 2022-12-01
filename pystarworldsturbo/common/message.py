@@ -59,7 +59,19 @@ class BccMessage(Message):
         assert type(content) in [int, float, str, bytes, list, tuple, dict]
         assert type(recipient_id) == str
 
-        super(BccMessage, self).__init__(content=content, sender_id=sender_id, recipient_ids=[recipient_id])
+        super(BccMessage, self).__init__(content=self.__deep_copy_content(content), sender_id=sender_id, recipient_ids=[recipient_id])
+
+    def __deep_copy_content(self, content: Union[int, float, str, bytes, list, tuple, dict]) -> Union[int, float, str, bytes, list, tuple, dict]:
+        if isinstance(content, (int, float, str, bytes)):
+            return content
+        elif isinstance(content, list):
+            return [self.__deep_copy_content(element) for element in content]
+        elif isinstance(content, tuple):
+            return tuple([self.__deep_copy_content(element) for element in content])
+        elif isinstance(content, dict):
+            return {self.__deep_copy_content(key): self.__deep_copy_content(value) for key, value in content.items()}
+        else:
+            raise ValueError("The content of a message must be of type `Union[int, float, str, bytes, list, tuple, dict]`, including recursive content.")
 
     def __str__(self) -> str:
         return "message:(from: {}, content: {})".format(self.get_sender_id(), self.get_content())
