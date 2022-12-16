@@ -4,18 +4,18 @@ from ..common.action import Action
 
 
 class Mind():
-    def perceive(*_) -> None:
+    def perceive(self, **_) -> None:
         # Abstract.
-        pass
+        raise NotImplementedError()
 
-    def revise(*_) -> None:
+    def revise(self) -> None:
         # Abstract.
-        pass
+        raise NotImplementedError()
 
-    def decide(*_) -> None:
+    def decide(self) -> None:
         # Abstract.
-        pass
+        raise NotImplementedError()
 
-    def execute(*_) -> Tuple[Action]:
+    def execute(self) -> Tuple[Action]:
         # Abstract.
-        pass
+        raise NotImplementedError()

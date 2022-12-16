@@ -36,6 +36,8 @@ class ActionExecutor():
         ignore(env)
         ignore(action)
 
+        return False
+
     def attempt(self, env: Environment, action: Action) -> ActionResult:
         # Abstract.
 
@@ -49,3 +51,5 @@ class ActionExecutor():
 
         ignore(action)
         ignore(env)
+
+        return False

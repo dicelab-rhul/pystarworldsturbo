@@ -1,4 +1,5 @@
-from typing import Iterable, List, Type, Union, Optional
+from typing import List, Type
+from pyoptional.pyoptional import PyOptional
 
 from .body import Body
 from .sensor import Sensor
@@ -22,29 +23,29 @@ class Actor(Body):
     def get_sensors(self) -> List[Sensor]:
         return self.__sensors
 
-    def get_listening_sensor(self) -> Optional[Sensor]:
+    def get_listening_sensor(self) -> PyOptional[Sensor]:
         return self.get_sensor_for(event_type=BccMessage)
 
-    def get_sensor_for(self, event_type: Type) -> Optional[Sensor]:
+    def get_sensor_for(self, event_type: Type) -> PyOptional[Sensor]:
         for sensor in self.__sensors:
             if sensor.is_subscribed_to(event_type=event_type):
-                return sensor
+                return PyOptional.of(sensor)
 
-        return None
+        return PyOptional.empty()
 
     def get_actuators(self) -> List[Actuator]:
         return self.__actuators
 
-    def get_actuator_for(self, event_type: Type) -> Optional[Actuator]:
+    def get_actuator_for(self, event_type: Type) -> PyOptional[Actuator]:
         for actuator in self.__actuators:
             if actuator.is_subscribed_to(event_type=event_type):
-                return actuator
+                return PyOptional.of(actuator)
 
-        return None
+        return PyOptional.empty()
 
-    def cycle(_) -> None:
+    def cycle(self) -> None:
         # Abstract.
-        pass
+        raise NotImplementedError()
 
     def get_pending_actions(self) -> List[Action]:
         actions: List[Action] = []
@@ -59,14 +60,7 @@ class Actor(Body):
         actions: List[Action] = []
 
         for actuator in self.__actuators:
-            if actuator.has_pending_actions():
-                _actions: Union[Action, Iterable[Action]] = actuator.source()
-
-                if type(_actions) == Action:
-                    actions.append(_actions)
-
-                else:
-                    for a in _actions:
-                        actions.append(a)
+            while actuator.has_pending_actions():
+                actions += [a for a in actuator.source_all()]
 
         return actions
