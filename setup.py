@@ -21,7 +21,7 @@ classifiers: list = [
 
 url: str = "https://github.com/dicelab-rhul/pystarworldsturbo"
 issues: str = url + "/issues"
-dependencies: list = ["wheel", "ipython", "pyjoptional>=1.0.3"]
+dependencies: list = ["wheel", "ipython", "pyjoptional>=1.0.5"]
 
 # End of metadata
 
