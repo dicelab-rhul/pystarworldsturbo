@@ -1,7 +1,7 @@
 from typing import List, cast
 
 from .perception import Perception
-from .content_type import MessageContentType, MessageContentSimpleType
+from .content_type import MessageContentType, MessageContentSimpleType, MessageContentBaseType
 
 
 class Message(Perception):
@@ -14,7 +14,7 @@ class Message(Perception):
     '''
     def __init__(self, content: MessageContentType, sender_id: str, recipient_ids: List[str]=[]) -> None:
         assert content is not None
-        assert isinstance(content, (int, float, str, bool, bytes, list, dict))
+        assert isinstance(content, MessageContentBaseType)
         assert sender_id is not None
         assert isinstance(sender_id, str)
         assert recipient_ids is not None
@@ -72,7 +72,7 @@ class BccMessage(Message):
             return content
         elif isinstance(content, list):
             return [self.__deep_copy_content(element) for element in content]
-        elif all([isinstance(key, MessageContentSimpleType) for key in content.keys()]) and all([isinstance(value, (int, float, str, bool, bytes, list, dict)) for value in content.values()]):
+        elif all([isinstance(key, MessageContentSimpleType) for key in content.keys()]) and all([isinstance(value, MessageContentBaseType) for value in content.values()]):
             return {cast(MessageContentSimpleType, self.__deep_copy_content(key)): self.__deep_copy_content(value) for key, value in content.items()}
         else:
             raise ValueError("Invalid content type: {}. The content of a message must be of type `MessageContentType`, including recursive content.".format(type(content)))
