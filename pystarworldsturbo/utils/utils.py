@@ -2,7 +2,7 @@ from os import devnull
 from typing import Any, Iterable, Iterator
 
 
-def ignore(obj: Any) -> None:
+def ignore(obj: Any | Iterable[Any] | Iterator[Any]) -> None:
     if not obj:
         return
     elif isinstance(obj, (Iterable, Iterator)):

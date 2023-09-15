@@ -1,4 +1,4 @@
-from typing import Dict, List, Type, Optional
+from typing import Dict, List, Type
 from pyoptional.pyoptional import PyOptional
 
 from .ambient import Ambient
@@ -31,7 +31,7 @@ class Environment():
 
     def get_actor(self, actor_id: str) -> PyOptional[Actor]:
         if actor_id not in self.__actors:
-            return PyOptional.empty()
+            return PyOptional[Actor].empty()
         else:
             return PyOptional.of(self.__actors[actor_id])
 
@@ -53,7 +53,7 @@ class Environment():
 
     def get_passive_body(self, passive_body_id: str) -> PyOptional[Body]:
         if passive_body_id not in self.__passive_bodies:
-            return PyOptional.empty()
+            return PyOptional[Body].empty()
         else:
             return PyOptional.of(self.__passive_bodies[passive_body_id])
 

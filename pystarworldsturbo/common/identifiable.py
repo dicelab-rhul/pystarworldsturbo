@@ -5,7 +5,7 @@ global_counter: int = 1
 
 
 class Identifiable():
-    def __init__(self, identifiable_id: str=None, progressive_id: str=None) -> None:
+    def __init__(self, identifiable_id: str="", progressive_id: str="") -> None:
         if not identifiable_id:
             self.__id = str(uuid4())
         else:

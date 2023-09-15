@@ -4,12 +4,12 @@ from setuptools import setup, find_packages
 # All the metadata that are expected to be reused should go here.
 
 name: str = "pystarworldsturbo"
-version: str = "1.1.6"
+version: str = "1.1.7"
 description: str = "PyStarWorldsTurbo, an agent library."
 author: str = "Emanuele Uliana"
 author_email: str = "pystarworldsturbo@dicelab-rhul.org"
 license: str = "GNU3"
-classifiers: list = [
+classifiers: list[str] = [
     "Programming Language :: Python :: 3",
     "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
@@ -21,7 +21,7 @@ classifiers: list = [
 
 url: str = "https://github.com/dicelab-rhul/pystarworldsturbo"
 issues: str = url + "/issues"
-dependencies: list = ["wheel", "ipython", "pyjoptional>=1.0.5"]
+dependencies: list[str] = ["wheel", "ipython", "pyjoptional>=1.1.0"]
 
 # End of metadata
 

@@ -1,4 +1,4 @@
-from typing import List, Type
+from typing import List, Type, Any
 from pyoptional.pyoptional import PyOptional
 
 from .body import Body
@@ -26,22 +26,22 @@ class Actor(Body):
     def get_listening_sensor(self) -> PyOptional[Sensor]:
         return self.get_sensor_for(event_type=BccMessage)
 
-    def get_sensor_for(self, event_type: Type) -> PyOptional[Sensor]:
+    def get_sensor_for(self, event_type: Type[Any]) -> PyOptional[Sensor]:
         for sensor in self.__sensors:
             if sensor.is_subscribed_to(event_type=event_type):
                 return PyOptional.of(sensor)
 
-        return PyOptional.empty()
+        return PyOptional[Sensor].empty()
 
     def get_actuators(self) -> List[Actuator]:
         return self.__actuators
 
-    def get_actuator_for(self, event_type: Type) -> PyOptional[Actuator]:
+    def get_actuator_for(self, event_type: Type[Any]) -> PyOptional[Actuator]:
         for actuator in self.__actuators:
             if actuator.is_subscribed_to(event_type=event_type):
                 return PyOptional.of(actuator)
 
-        return PyOptional.empty()
+        return PyOptional[Actuator].empty()
 
     def cycle(self) -> None:
         # Abstract.
