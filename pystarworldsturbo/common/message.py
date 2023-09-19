@@ -1,4 +1,5 @@
-from typing import List, cast
+from typing import List, cast, Any
+from json import dumps, loads
 
 from .perception import Perception
 from .content_type import MessageContentType, MessageContentSimpleType, MessageContentBaseType
@@ -13,11 +14,9 @@ class Message(Perception):
     * The sender is specified by the `sender_id` field. This field's type is `str`.
     '''
     def __init__(self, content: MessageContentType, sender_id: str, recipient_ids: List[str]=[]) -> None:
-        assert content is not None
-        assert isinstance(content, MessageContentBaseType)
-        assert sender_id is not None
-        assert isinstance(sender_id, str)
-        assert recipient_ids is not None
+        self.validate_content(content)
+        self.validate_sender_id(sender_id)
+        self.validate_recipients_ids(recipient_ids)
 
         self.__content: MessageContentType = content
         self.__sender_id: str = sender_id
@@ -49,6 +48,39 @@ class Message(Perception):
         '''
         self.__recipient_ids = recipient_ids
 
+    def validate_content(self, content: Any, must_be_simple: bool=False) -> None:
+        if content is None:
+            raise ValueError(f"Invalid content: {content}.")
+        elif must_be_simple and not isinstance(content, MessageContentSimpleType):
+            raise ValueError(f"Invalid content type: {type(content)}. The content of a message must be of type `MessageContentSimpleType`.")
+        elif not isinstance(content, MessageContentBaseType):
+            raise ValueError(f"Invalid content type: {type(content)}. The content of a message must be of type `MessageContentType`, including recursive content.")
+        elif isinstance(content, list):
+            for element in cast(List[Any], content):
+                self.validate_content(element)
+        elif isinstance(content, dict):
+            for key, value in cast(dict[Any, Any], content).items():
+                self.validate_content(key, must_be_simple=True)
+                self.validate_content(value)
+
+    def validate_sender_id(self, sender_id: Any) -> None:
+        if not sender_id:
+            raise ValueError(f"Invalid sender ID: {sender_id}.")
+        elif not isinstance(sender_id, str):
+            raise ValueError(f"Invalid sender ID type: {type(sender_id)}. The sender ID must be of type `str`.")
+
+    def validate_recipients_ids(self, recipient_ids: Any) -> None:
+        if recipient_ids is None:
+            raise ValueError(f"Invalid recipient IDs: {recipient_ids}.")
+        elif not isinstance(recipient_ids, list):
+            raise ValueError(f"Invalid recipient IDs type: {type(recipient_ids)}. The recipient IDs must be of type `List[str]`.")
+
+        list_of_recipient_ids: List[Any] = cast(List[Any], recipient_ids)
+
+        for recipient_id in list_of_recipient_ids:
+            if not isinstance(recipient_id, str):
+                raise ValueError(f"Invalid recipient ID: {recipient_id}. All recipient IDs must be of type `str`.")
+
 
 class BccMessage(Message):
     '''
@@ -64,18 +96,9 @@ class BccMessage(Message):
         super(BccMessage, self).__init__(content=self.__deep_copy_content(content), sender_id=sender_id, recipient_ids=[recipient_id])
 
     def __deep_copy_content(self, content: MessageContentType) -> MessageContentType:
-        # The content is deep-copied to avoid that the same object is shared by multiple `BccMessage` instances.
+        self.validate_content(content)
 
-        assert content is not None
-
-        if isinstance(content, MessageContentSimpleType) or isinstance(content, bytes):
-            return content
-        elif isinstance(content, list):
-            return [self.__deep_copy_content(element) for element in content]
-        elif all([isinstance(key, MessageContentSimpleType) for key in content.keys()]) and all([isinstance(value, MessageContentBaseType) for value in content.values()]):
-            return {cast(MessageContentSimpleType, self.__deep_copy_content(key)): self.__deep_copy_content(value) for key, value in content.items()}
-        else:
-            raise ValueError("Invalid content type: {}. The content of a message must be of type `MessageContentType`, including recursive content.".format(type(content)))
+        return loads(dumps(content))
 
     def __str__(self) -> str:
         return "message:(from: {}, content: {})".format(self.get_sender_id(), self.get_content())
