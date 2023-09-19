@@ -1,5 +1,4 @@
 from typing import List, cast, Any
-from json import dumps, loads
 
 from .perception import Perception
 from .content_type import MessageContentType, MessageContentSimpleType, MessageContentBaseType
@@ -98,7 +97,14 @@ class BccMessage(Message):
     def __deep_copy_content(self, content: MessageContentType) -> MessageContentType:
         self.validate_content(content)
 
-        return loads(dumps(content))
+        if isinstance(content, (MessageContentSimpleType, bytes)):
+            return content
+        elif isinstance(content, list):
+            return [self.__deep_copy_content(element) for element in cast(List[Any], content)]
+        elif isinstance(content, dict):
+            return {cast(MessageContentSimpleType, self.__deep_copy_content(key)): self.__deep_copy_content(value) for key, value in cast(dict[Any, Any], content).items()}
+        else:
+            raise ValueError(f"Invalid content type: {type(content)}. The content of a message must be of type `MessageContentSimpleType`.")
 
     def __str__(self) -> str:
         return "message:(from: {}, content: {})".format(self.get_sender_id(), self.get_content())
