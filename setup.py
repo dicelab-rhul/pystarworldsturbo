@@ -4,7 +4,7 @@ from setuptools import setup, find_packages
 # All the metadata that are expected to be reused should go here.
 
 name: str = "pystarworldsturbo"
-version: str = "1.2.1"
+version: str = "1.2.2"
 description: str = "PyStarWorldsTurbo, an agent library."
 author: str = "Emanuele Uliana"
 author_email: str = "pystarworldsturbo@dicelab-rhul.org"
