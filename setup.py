@@ -4,8 +4,12 @@ from setuptools import setup, find_packages
 # All the metadata that are expected to be reused should go here.
 
 name: str = "pystarworldsturbo"
-version: str = "1.2.2"
+version: str = "1.2.3"
 description: str = "PyStarWorldsTurbo, an agent library."
+
+with open("README.md", "r") as f:
+    long_description = f.read()
+
 author: str = "Emanuele Uliana"
 author_email: str = "pystarworldsturbo@dicelab-rhul.org"
 license: str = "GNU3"
@@ -30,6 +34,8 @@ setup(
     name=name,
     version=version,
     description=description,
+    long_description=long_description,
+    long_description_content_type="text/markdown",
     url=url,
     issues=issues,
     author=author,
