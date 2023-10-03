@@ -1,11 +1,20 @@
-from typing import Tuple
+from typing import Iterable, Any
 
 from ..common.action import Action
+from ..utils.utils import ignore
 
 
 class Mind():
-    def perceive(self, **_) -> None:
+    def perceive(self, *args: Any, **kwargs: Any) -> None:
         # Abstract.
+
+        for p in args:
+            ignore(p)
+
+        for k, v in kwargs.items():
+            ignore(k)
+            ignore(v)
+
         raise NotImplementedError()
 
     def revise(self) -> None:
@@ -16,6 +25,6 @@ class Mind():
         # Abstract.
         raise NotImplementedError()
 
-    def execute(self) -> Tuple[Action]:
+    def execute(self) -> Iterable[Action]:
         # Abstract.
         raise NotImplementedError()

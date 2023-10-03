@@ -1,4 +1,4 @@
-from typing import List, cast, Any
+from typing import cast, Any
 
 from .perception import Perception
 from .content_type import MessageContentType, MessageContentSimpleType, MessageContentBaseType
@@ -9,17 +9,17 @@ class Message(Perception):
     This class specifies a wrapper for a message that is sent to a multiple recipients, and its metadata.
 
     * The content is specified by the `content` field. This field's type is `MessageContentType`.
-    * The recipients are specified by the `recipient_ids` field. This field's type is `List[str]`.
+    * The recipients are specified by the `recipient_ids` field. This field's type is `list[str]`.
     * The sender is specified by the `sender_id` field. This field's type is `str`.
     '''
-    def __init__(self, content: MessageContentType, sender_id: str, recipient_ids: List[str]=[]) -> None:
+    def __init__(self, content: MessageContentType, sender_id: str, recipient_ids: list[str]=[]) -> None:
         self.validate_content(content)
         self.validate_sender_id(sender_id)
         self.validate_recipients_ids(recipient_ids)
 
         self.__content: MessageContentType = content
         self.__sender_id: str = sender_id
-        self.__recipient_ids: List[str] = recipient_ids
+        self.__recipient_ids: list[str] = recipient_ids
 
     def get_content(self) -> MessageContentType:
         '''
@@ -33,15 +33,15 @@ class Message(Perception):
         '''
         return self.__sender_id
 
-    def get_recipients_ids(self) -> List[str]:
+    def get_recipients_ids(self) -> list[str]:
         '''
-        Returns the recipients' IDs as a `List[str]`.
+        Returns the recipients' IDs as a `list[str]`.
 
-        In case this `Message` is a `BccMessage`, this method returns a `List[str]`containing only one ID.
+        In case this `Message` is a `BccMessage`, this method returns a `list[str]`containing only one ID.
         '''
         return self.__recipient_ids
 
-    def override_recipients(self, recipient_ids: List[str]) -> None:
+    def override_recipients(self, recipient_ids: list[str]) -> None:
         '''
         WARNING: this method needs to be public, but it is not part of the public API.
         '''
@@ -55,7 +55,7 @@ class Message(Perception):
         elif not isinstance(content, MessageContentBaseType):
             raise ValueError(f"Invalid content type: {type(content)}. The content of a message must be of type `MessageContentType`, including recursive content.")
         elif isinstance(content, list):
-            for element in cast(List[Any], content):
+            for element in cast(list[Any], content):
                 self.validate_content(element)
         elif isinstance(content, dict):
             for key, value in cast(dict[Any, Any], content).items():
@@ -72,9 +72,9 @@ class Message(Perception):
         if recipient_ids is None:
             raise ValueError(f"Invalid recipient IDs: {recipient_ids}.")
         elif not isinstance(recipient_ids, list):
-            raise ValueError(f"Invalid recipient IDs type: {type(recipient_ids)}. The recipient IDs must be of type `List[str]`.")
+            raise ValueError(f"Invalid recipient IDs type: {type(recipient_ids)}. The recipient IDs must be of type `list[str]`.")
 
-        list_of_recipient_ids: List[Any] = cast(List[Any], recipient_ids)
+        list_of_recipient_ids: list[Any] = cast(list[Any], recipient_ids)
 
         for recipient_id in list_of_recipient_ids:
             if not isinstance(recipient_id, str):
@@ -100,7 +100,7 @@ class BccMessage(Message):
         if isinstance(content, (MessageContentSimpleType, bytes)):
             return content
         elif isinstance(content, list):
-            return [self.__deep_copy_content(element) for element in cast(List[Any], content)]
+            return [self.__deep_copy_content(element) for element in cast(list[Any], content)]
         elif isinstance(content, dict):
             return {cast(MessageContentSimpleType, self.__deep_copy_content(key)): self.__deep_copy_content(value) for key, value in cast(dict[Any, Any], content).items()}
         else:

@@ -1,4 +1,4 @@
-from typing import Dict, List, Type
+from typing import Type
 from pyoptional.pyoptional import PyOptional
 
 from .ambient import Ambient
@@ -15,18 +15,18 @@ from ..utils.utils import ignore
 
 
 class Environment():
-    def __init__(self, ambient: Ambient, initial_actors: List[Actor]=[], initial_passive_bodies: List[Body]=[]) -> None:
+    def __init__(self, ambient: Ambient, initial_actors: list[Actor]=[], initial_passive_bodies: list[Body]=[]) -> None:
         self.__ambient: Ambient = ambient
-        self.__actors: Dict[str, Actor] = {actor.get_id(): actor for actor in initial_actors}
-        self.__passive_bodies: Dict[str, Body] = {passive_body.get_id(): passive_body for passive_body in initial_passive_bodies}
+        self.__actors: dict[str, Actor] = {actor.get_id(): actor for actor in initial_actors}
+        self.__passive_bodies: dict[str, Body] = {passive_body.get_id(): passive_body for passive_body in initial_passive_bodies}
 
     def get_ambient(self) -> Ambient:
         return self.__ambient
 
-    def get_actors(self) -> Dict[str, Actor]:
+    def get_actors(self) -> dict[str, Actor]:
         return self.__actors
 
-    def get_actors_list(self) -> List[Actor]:
+    def get_actors_list(self) -> list[Actor]:
         return [actor for actor in self.__actors.values()]
 
     def get_actor(self, actor_id: str) -> PyOptional[Actor]:
@@ -45,10 +45,10 @@ class Environment():
 
         del self.__actors[actor_id]
 
-    def get_passive_bodies(self) -> Dict[str, Body]:
+    def get_passive_bodies(self) -> dict[str, Body]:
         return self.__passive_bodies
 
-    def get_passive_bodies_list(self) -> List[Body]:
+    def get_passive_bodies_list(self) -> list[Body]:
         return [body for body in self.__passive_bodies.values()]
 
     def get_passive_body(self, passive_body_id: str) -> PyOptional[Body]:
@@ -106,13 +106,13 @@ class Environment():
 
     def __execute_actor_actions(self, actor: Actor) -> None:
         actor.cycle()
-        actions: List[Action] = actor.get_pending_actions()
+        actions: list[Action] = actor.get_pending_actions()
         self.validate_actions(actions=actions)
 
         for action in actions:
             self.execute_action(action=action)
 
-    def validate_actions(self, actions: List[Action]) -> None:
+    def validate_actions(self, actions: list[Action]) -> None:
         # Abstract.
 
         ignore(actions)

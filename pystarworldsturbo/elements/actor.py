@@ -1,4 +1,4 @@
-from typing import List, Type, Any
+from typing import Type, Any
 from pyoptional.pyoptional import PyOptional
 
 from .body import Body
@@ -10,17 +10,17 @@ from ..common.action import Action
 
 
 class Actor(Body):
-    def __init__(self, mind: Mind, sensors: List[Sensor]=[], actuators: List[Actuator]=[]) -> None:
+    def __init__(self, mind: Mind, sensors: list[Sensor]=[], actuators: list[Actuator]=[]) -> None:
         super(Body, self).__init__()
 
         self.__mind: Mind = mind
-        self.__sensors: List[Sensor] = sensors
-        self.__actuators: List[Actuator] = actuators
+        self.__sensors: list[Sensor] = sensors
+        self.__actuators: list[Actuator] = actuators
 
     def get_mind(self) -> Mind:
         return self.__mind
 
-    def get_sensors(self) -> List[Sensor]:
+    def get_sensors(self) -> list[Sensor]:
         return self.__sensors
 
     def get_listening_sensor(self) -> PyOptional[Sensor]:
@@ -33,7 +33,7 @@ class Actor(Body):
 
         return PyOptional[Sensor].empty()
 
-    def get_actuators(self) -> List[Actuator]:
+    def get_actuators(self) -> list[Actuator]:
         return self.__actuators
 
     def get_actuator_for(self, event_type: Type[Any]) -> PyOptional[Actuator]:
@@ -47,8 +47,8 @@ class Actor(Body):
         # Abstract.
         raise NotImplementedError()
 
-    def get_pending_actions(self) -> List[Action]:
-        actions: List[Action] = []
+    def get_pending_actions(self) -> list[Action]:
+        actions: list[Action] = []
 
         # Any actor must execute at least one action per cycle.
         while not actions:
@@ -56,8 +56,8 @@ class Actor(Body):
 
         return actions
 
-    def __get_pending_actions(self) -> List[Action]:
-        actions: List[Action] = []
+    def __get_pending_actions(self) -> list[Action]:
+        actions: list[Action] = []
 
         for actuator in self.__actuators:
             while actuator.has_pending_actions():

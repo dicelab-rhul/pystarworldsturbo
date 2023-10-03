@@ -1,4 +1,4 @@
-from typing import List, Type, Iterable, Any
+from typing import Type, Iterable, Any
 from queue import Queue
 from pyoptional.pyoptional import PyOptional
 
@@ -6,7 +6,7 @@ from ..common.action import Action
 
 
 class Actuator():
-    def __init__(self, subscribed_events: List[Type[Any]]=[]) -> None:
+    def __init__(self, subscribed_events: list[Type[Any]]=[]) -> None:
         self.__action_buffer: Queue[Action] = Queue()
 
         if not subscribed_events:
@@ -16,7 +16,7 @@ class Actuator():
         elif not all([isinstance(event_type, Type) and issubclass(event_type, Action) for event_type in subscribed_events]):
             raise ValueError("Cannot subscribe to something which is not a type of `Action`.")
         else:
-            self.__subscribed_events: List[Type[Any]] = subscribed_events
+            self.__subscribed_events: list[Type[Any]] = subscribed_events
 
     def subscribe_to_event_type(self, event_type: Type[Any]) -> None:
         if not event_type:
