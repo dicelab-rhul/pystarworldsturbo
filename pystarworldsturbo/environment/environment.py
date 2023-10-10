@@ -117,6 +117,8 @@ class Environment():
 
         ignore(actions)
 
+        raise NotImplementedError()
+
     def execute_action(self, action: Action) -> None:
         action_executor: ActionExecutor = self.get_executor_for(action=action).or_else_raise(ValueError("No executor found for action of type {}.".format(type(action))))
         result: ActionResult = action_executor.execute(env=self, action=action)

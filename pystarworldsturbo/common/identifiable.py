@@ -5,13 +5,15 @@ global_counter: int = 1
 
 
 class Identifiable():
+    __MINIMUM_PROGRESSIVE_ID: int = 1
+
     def __init__(self, identifiable_id: str="", progressive_id: str="") -> None:
         if not identifiable_id:
             self.__id = str(uuid4())
         else:
             self.__id = identifiable_id
 
-        if not progressive_id:
+        if not progressive_id or not isinstance(progressive_id, int) or progressive_id < Identifiable.__MINIMUM_PROGRESSIVE_ID:
             self.__progressive_id = Identifiable.new_progressive_id()
         else:
             self.__progressive_id: str = progressive_id

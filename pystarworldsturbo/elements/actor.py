@@ -5,6 +5,7 @@ from .body import Body
 from .sensor import Sensor
 from .actuator import Actuator
 from .mind import Mind
+from .actor_appearance import ActorAppearance
 from ..common.message import BccMessage
 from ..common.action import Action
 
@@ -64,3 +65,7 @@ class Actor(Body):
                 actions += [a for a in actuator.source_all()]
 
         return actions
+
+    def generate_appearance(self) -> ActorAppearance:
+        # Abstract.
+        raise NotImplementedError()

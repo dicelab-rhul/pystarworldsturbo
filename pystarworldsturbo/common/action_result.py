@@ -14,3 +14,8 @@ class ActionResult():
         self.__outcome = new_outcome
 
         assert isinstance(self.__outcome, ActionOutcome)
+
+    def to_json(self) -> dict[str, str]:
+        return {
+            "outcome": str(self.__outcome)
+        }
