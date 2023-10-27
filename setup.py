@@ -4,7 +4,7 @@ from setuptools import setup, find_packages
 # All the metadata that are expected to be reused should go here.
 
 name: str = "pystarworldsturbo"
-version: str = "1.2.6"
+version: str = "1.2.7"
 description: str = "PyStarWorldsTurbo, an agent library."
 
 with open("README.md", "r") as f:
