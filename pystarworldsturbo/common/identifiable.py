@@ -13,7 +13,7 @@ class Identifiable():
         else:
             self.__id = identifiable_id
 
-        if not progressive_id or not isinstance(progressive_id, int) or progressive_id < Identifiable.__MINIMUM_PROGRESSIVE_ID:
+        if not progressive_id or not Identifiable.__is_int(value=progressive_id) or int(progressive_id) < Identifiable.__MINIMUM_PROGRESSIVE_ID:
             self.__progressive_id = Identifiable.new_progressive_id()
         else:
             self.__progressive_id: str = progressive_id
@@ -32,3 +32,12 @@ class Identifiable():
         global_counter += 1
 
         return progressive_id
+
+    @staticmethod
+    def __is_int(value: str) -> bool:
+        try:
+            int(value)
+
+            return True
+        except ValueError:
+            return False
