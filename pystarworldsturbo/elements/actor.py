@@ -30,7 +30,7 @@ class Actor(Body):
     def get_sensor_for(self, event_type: Type[Any]) -> PyOptional[Sensor]:
         for sensor in self.__sensors:
             if sensor.is_subscribed_to(event_type=event_type):
-                return PyOptional.of(sensor)
+                return PyOptional[Sensor].of(sensor)
 
         return PyOptional[Sensor].empty()
 
@@ -40,7 +40,7 @@ class Actor(Body):
     def get_actuator_for(self, event_type: Type[Any]) -> PyOptional[Actuator]:
         for actuator in self.__actuators:
             if actuator.is_subscribed_to(event_type=event_type):
-                return PyOptional.of(actuator)
+                return PyOptional[Actuator].of(actuator)
 
         return PyOptional[Actuator].empty()
 

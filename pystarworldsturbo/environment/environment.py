@@ -33,7 +33,7 @@ class Environment():
         if actor_id not in self.__actors:
             return PyOptional[Actor].empty()
         else:
-            return PyOptional.of(self.__actors[actor_id])
+            return PyOptional[Actor].of(self.__actors[actor_id])
 
     def add_actor(self, actor: Actor) -> None:
         assert actor not in self.__actors
@@ -55,7 +55,7 @@ class Environment():
         if passive_body_id not in self.__passive_bodies:
             return PyOptional[Body].empty()
         else:
-            return PyOptional.of(self.__passive_bodies[passive_body_id])
+            return PyOptional[Body].of(self.__passive_bodies[passive_body_id])
 
     def add_passive_body(self, passive_body: Body) -> None:
         assert passive_body not in self.__passive_bodies
